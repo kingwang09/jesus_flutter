@@ -29,6 +29,7 @@ class MyApp extends StatefulWidget{
 
 class _MyApp extends State<MyApp>{
   var switchValue = false;
+  String buttonValue = "헬로우 버튼";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,15 +41,25 @@ class _MyApp extends State<MyApp>{
         darkTheme: ThemeData.light(),
         home: Scaffold(
           body: Center(
-            child: Switch(
-              value: switchValue,
-              onChanged: (value) {
+            child: ElevatedButton(
+              child: Text('$buttonValue'),
+              onPressed: () {
                 setState(() {
-                  print(value);
-                  switchValue = value;
+                  buttonValue == "헬로우 버튼" ?
+                    buttonValue = "월드 버튼" :
+                    buttonValue = "헬로우 버튼";
                 });
               },
             ),
+            // child: Switch(
+            //   value: switchValue,
+            //   onChanged: (value) {
+            //     setState(() {
+            //       print(value);
+            //       switchValue = value;
+            //     });
+            //   },
+            // ),
           ),
         )
     );
