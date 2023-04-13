@@ -30,6 +30,7 @@ class MyApp extends StatefulWidget{
 class _MyApp extends State<MyApp>{
   var switchValue = false;
   String buttonValue = "헬로우 버튼";
+  Color _buttonColor = Colors.black;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,6 +49,10 @@ class _MyApp extends State<MyApp>{
                   buttonValue == "헬로우 버튼" ?
                     buttonValue = "월드 버튼" :
                     buttonValue = "헬로우 버튼";
+
+                  _buttonColor == Colors.blue ?
+                      _buttonColor = Colors.amber :
+                      _buttonColor = Colors.blue;
                 });
               },
             ),
