@@ -5,20 +5,54 @@ void main(){
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatefulWidget{
+  var switchValue = false;
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     title: "Flutter Demo",
+  //     theme: ThemeData(
+  //       primaryColor: Colors.blue,
+  //       visualDensity: VisualDensity.adaptivePlatformDensity,
+  //     ),
+  //     darkTheme: ThemeData.light(),
+  //     home: _MyApp();
+  //   );
+  // }
+
+  @override
+  State<StatefulWidget> createState() {
+    return _MyApp();
+  }
+}
+
+class _MyApp extends State<MyApp>{
+  var switchValue = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Flutter Demo",
-      theme: ThemeData(
-        primaryColor: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: "Flutter Demo Home page...")
+        title: "Flutter Demo",
+        theme: ThemeData(
+          primaryColor: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        darkTheme: ThemeData.light(),
+        home: Scaffold(
+          body: Center(
+            child: Switch(
+              value: switchValue,
+              onChanged: (value) {
+                setState(() {
+                  print(value);
+                  switchValue = value;
+                });
+              },
+            ),
+          ),
+        )
     );
   }
-
 }
 
 class MyHomePage extends StatelessWidget{
@@ -28,6 +62,14 @@ class MyHomePage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text(title, textAlign: TextAlign.center,));
+    return Container(
+        color: Colors.white,
+        child: Center(
+            child: Text(title,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.blue, fontSize: 20),
+            )
+        )
+    );
   }
 }
