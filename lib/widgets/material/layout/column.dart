@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 void main(){
   runApp(const MyColumnApp());
 }
+
+//MaterialApp main class
 class MyColumnApp extends StatelessWidget{
   const MyColumnApp({super.key});
 
@@ -12,8 +14,9 @@ class MyColumnApp extends StatelessWidget{
       home: MyColumn(),
     );
   }
-
 }
+
+//MaterialApp home Class
 class MyColumn extends StatelessWidget{
   const MyColumn({super.key});
 
