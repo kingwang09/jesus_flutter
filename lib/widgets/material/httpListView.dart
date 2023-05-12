@@ -42,7 +42,7 @@ class _bibleState extends State<MyBibleListViewAppHome>{
   }
 
   Future<String> getJson() async{
-    var url = Uri.http('kingwang09.koreacentral.cloudapp.azure.com:9999', '/bible/text', {'version': 'KOREAN_IMPROVE', 'index':'롬', 'chapter':'1'});
+    var url = Uri.http('kingwang09.koreacentral.cloudapp.azure.com:9999', '/bible/text', {'version': 'KOREAN_IMPROVE', 'index':'롬', 'chapter':'2'});
     print("url=$url");
 
     // Await the http get response, then decode the json-formatted response.
@@ -74,7 +74,7 @@ class _bibleState extends State<MyBibleListViewAppHome>{
       body: ListView.builder(
         itemBuilder: (context, position){//items의 position으로 접근하여 사용.
           var text = "${position + 1} ${values[position]}";
-          return Text(text);
+          return Text(text, style: TextStyle(fontSize: 25),);
         },
         itemCount: values.length,
       ),
