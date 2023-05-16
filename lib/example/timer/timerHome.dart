@@ -12,36 +12,40 @@ class TimerHome extends StatefulWidget{
 }
 
 class _TimerHomeState extends State<TimerHome>{
+  final int TIMER_MIN = 30;
   DateTime? _start;
   DateTime? _end;
   String _display = "00:00";
   bool _isRunning = false;
 
   void start(){
-    _start = DateTime.now();
-    updateIsRunning(true);
-    if(!_isRunning){//이미 동작 중이면 스케줄 실행되지 않도록 개선
-      runTimer();
-    }
+    print("start=$start, isRun=$_isRunning");
 
+    if(_isRunning == false){//이미 동작 중이면 스케줄 실행되지 않도록 개선
+      _start = DateTime.now();
+      _end = _start!.add(Duration(minutes: TIMER_MIN , seconds: 1));//1초를 더해줘야함. timer가 1초 후에 돌아가기 때문
+      runTimer();
+    }else{
+      print("이미 실행 중입니다.");
+    }
+    updateIsRunning(true);
   }
 
   void end(){
-    _end = DateTime.now();
     updateIsRunning(false);
-    updateDisplay(_end!);
+    updateDisplay(DateTime.now());
   }
 
   void updateIsRunning(bool isRunning){
-    setState(() {
-      _isRunning = isRunning;
-    });
+    //setState(() {
+    //  _isRunning = isRunning;
+    //});
+    _isRunning = isRunning;
   }
 
-  void updateDisplay(DateTime end){
-    Duration duration = end.difference(_start!);
+  void updateDisplay(DateTime start){
+    Duration duration = _end!.difference(start);
     print("current: display=$duration, isRunning=$_isRunning");
-
     setState(() {
       _display = "${duration.inMinutes}:${duration.inSeconds % 60}";//분:초
     });
@@ -49,6 +53,15 @@ class _TimerHomeState extends State<TimerHome>{
 
   void runTimer() async{
     Timer.periodic(Duration(seconds: 1), (timer) {
+      Duration duration = _end!.difference(DateTime.now());
+      print("run timer duration: ${duration.inSeconds}");
+      if(duration.inSeconds == 0){//timer 종료시 끝.
+        print("finish..");
+        updateDisplay(DateTime.now());
+        updateIsRunning(false);
+        timer.cancel();
+      }
+
       if(_isRunning) {
         print("run second...");
         updateDisplay(DateTime.now());
