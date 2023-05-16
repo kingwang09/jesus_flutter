@@ -19,14 +19,13 @@ class _TimerHomeState extends State<TimerHome>{
 
   void start(){
     _start = DateTime.now();
-    _isRunning = true;
+    updateIsRunning(true);
     runTimer();
   }
 
   void end(){
     _end = DateTime.now();
-    _isRunning = false;
-    updateIsRunning(_isRunning);
+    updateIsRunning(false);
     updateDisplay(_end!);
   }
 
@@ -37,12 +36,11 @@ class _TimerHomeState extends State<TimerHome>{
   }
 
   void updateDisplay(DateTime end){
-    int diffMinute = end.minute - _start!.minute;
-    int diffSeconds = end.second - _start!.second;
-    print("current: display=$diffMinute:$diffSeconds, isRunning=$_isRunning");
+    Duration duration = end.difference(_start!);
+    print("current: display=$duration, isRunning=$_isRunning");
 
     setState(() {
-      _display = "$diffMinute:$diffSeconds";
+      _display = "${duration.inMinutes}:${duration.inSeconds % 60}";//분:초
     });
   }
 
