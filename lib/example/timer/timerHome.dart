@@ -20,7 +20,10 @@ class _TimerHomeState extends State<TimerHome>{
   void start(){
     _start = DateTime.now();
     updateIsRunning(true);
-    runTimer();
+    if(!_isRunning){//이미 동작 중이면 스케줄 실행되지 않도록 개선
+      runTimer();
+    }
+
   }
 
   void end(){
