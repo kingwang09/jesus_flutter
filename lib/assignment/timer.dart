@@ -23,6 +23,7 @@ class _pomoTimerState extends State<PomoTimerHome> {
 
   int _remainSeconds = 0;
   int _remainMinitues = 0;
+  int _selectedMiniutes = 0;
 
   bool _isRunning = false;
   bool _isRestTime = false;
@@ -74,6 +75,7 @@ class _pomoTimerState extends State<PomoTimerHome> {
 
   void changeTimer({required int miniute}) {
     print("change time: $miniute");
+    _selectedMiniutes = miniute;
 
     if (!_isRunning) {
       //중복 타이머 호출 안되도록 방어 처리
@@ -129,7 +131,7 @@ class _pomoTimerState extends State<PomoTimerHome> {
               children: [
                 Container(
                   width: 100,
-                  height: 120,
+                  height: 150,
                   margin: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -153,14 +155,16 @@ class _pomoTimerState extends State<PomoTimerHome> {
                 ),
                 Container(
                   width: 100,
-                  height: 120,
+                  height: 150,
                   margin: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white),
                   child: Center(
                     child: Text(
-                      "$_remainSeconds",
+                      _remainSeconds < 10
+                          ? "0$_remainSeconds"
+                          : "$_remainSeconds",
                       style: const TextStyle(
                           fontSize: 60,
                           color: Colors.redAccent,
@@ -176,72 +180,52 @@ class _pomoTimerState extends State<PomoTimerHome> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: OutlinedButton(
-                      style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Colors.white),
-                      ),
-                      onPressed: () {
-                        changeTimer(miniute: 1);
-                      },
-                      child: const Text(
-                        "15",
-                        style: TextStyle(
-                          color: Colors.redAccent,
-                          fontSize: 20,
-                        ),
-                      )),
+                MinitueButton(
+                  caller: changeTimer,
+                  minitues: 15,
+                  selectedMinitues: _selectedMiniutes,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        changeTimer(miniute: 20);
-                      },
-                      child: const Text("20")),
+                MinitueButton(
+                  caller: changeTimer,
+                  minitues: 20,
+                  selectedMinitues: _selectedMiniutes,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        changeTimer(miniute: 25);
-                      },
-                      child: const Text("25")),
+                MinitueButton(
+                  caller: changeTimer,
+                  minitues: 25,
+                  selectedMinitues: _selectedMiniutes,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        changeTimer(miniute: 30);
-                      },
-                      child: const Text("30")),
+                MinitueButton(
+                  caller: changeTimer,
+                  minitues: 30,
+                  selectedMinitues: _selectedMiniutes,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        changeTimer(miniute: 35);
-                      },
-                      child: const Text("35")),
+                MinitueButton(
+                  caller: changeTimer,
+                  minitues: 35,
+                  selectedMinitues: _selectedMiniutes,
                 ),
               ],
             ),
             const SizedBox(
-              height: 30,
+              height: 80,
             ),
             Center(
               child: IconButton(
                 color: Colors.white,
                 onPressed: toggle,
                 icon: _isRunning
-                    ? const Icon(Icons.pause)
-                    : const Icon(Icons.play_arrow),
+                    ? const Icon(
+                        Icons.pause_circle,
+                      )
+                    : const Icon(
+                        Icons.play_circle,
+                      ),
                 iconSize: 100,
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 80,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -249,18 +233,90 @@ class _pomoTimerState extends State<PomoTimerHome> {
                 Padding(
                   padding: const EdgeInsets.only(left: 100),
                   child: Column(
-                    children: [Text("$_completeRound/4"), const Text("ROUND")],
+                    children: [
+                      Text(
+                        "$_completeRound/4",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Text(
+                        "ROUND",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 100),
                   child: Column(
-                    children: [Text("$_completeGoal/12"), const Text("GOAL")],
+                    children: [
+                      Text(
+                        "$_completeGoal/12",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Text(
+                        "GOAL",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ],
             ),
           ]),
+    );
+  }
+}
+
+class MinitueButton extends StatelessWidget {
+  final int selectedMinitues;
+  final int minitues;
+  final Function({required int miniute}) caller; //명시적으로 맞춰줘야하는듯.
+  const MinitueButton({
+    super.key,
+    required this.minitues,
+    required this.selectedMinitues,
+    required this.caller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: OutlinedButton(
+          style: selectedMinitues == minitues
+              ? const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.white),
+                )
+              : null,
+          onPressed: () {
+            //changeTimer(miniute: 1);
+            caller(miniute: minitues);
+          },
+          child: Text(
+            "$minitues",
+            style: TextStyle(
+              color: selectedMinitues == minitues
+                  ? Colors.redAccent
+                  : Colors.white,
+              fontSize: 20,
+            ),
+          )),
     );
   }
 }
