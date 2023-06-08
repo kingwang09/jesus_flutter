@@ -89,6 +89,7 @@ class _pomoTimerState extends State<PomoTimerHome> {
   }
 
   void toggle() {
+    print("toggle: _isRunning=$_isRunning");
     if (!_isRunning) {
       //중복 타이머 호출 안되도록 방어 처리
       runTimer();
@@ -102,92 +103,164 @@ class _pomoTimerState extends State<PomoTimerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        const Text("pomo Timer"),
-        const SizedBox(
-          height: 100,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+      backgroundColor: Colors.redAccent,
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("$_remainMinitues"),
-            const Text(":"),
-            Text("$_remainSeconds"),
-          ],
-        ),
-        const SizedBox(
-          height: 50,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    changeTimer(miniute: 1);
-                  },
-                  child: const Text("15")),
+            const SizedBox(
+              height: 30,
             ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    changeTimer(miniute: 20);
-                  },
-                  child: const Text("20")),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    changeTimer(miniute: 25);
-                  },
-                  child: const Text("25")),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    changeTimer(miniute: 30);
-                  },
-                  child: const Text("30")),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    changeTimer(miniute: 35);
-                  },
-                  child: const Text("35")),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 30,
-        ),
-        IconButton(onPressed: toggle, icon: const Icon(Icons.play_circle)),
-        const SizedBox(
-          height: 30,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 100),
-              child: Column(
-                children: const [Text("0/4"), Text("ROUND")],
+            const Padding(
+              padding: EdgeInsets.all(40.0),
+              child: Text(
+                "POMOTIMER",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 100),
-              child: Column(
-                children: const [Text("0/12"), Text("GOAL")],
+            const SizedBox(
+              height: 80,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 100,
+                  height: 120,
+                  margin: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white),
+                  child: Center(
+                    child: Text(
+                      "$_remainMinitues",
+                      style: const TextStyle(
+                          fontSize: 60,
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                Text(
+                  ":",
+                  style: TextStyle(
+                    fontSize: 43,
+                    color: Colors.black.withOpacity(0.3),
+                  ),
+                ),
+                Container(
+                  width: 100,
+                  height: 120,
+                  margin: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white),
+                  child: Center(
+                    child: Text(
+                      "$_remainSeconds",
+                      style: const TextStyle(
+                          fontSize: 60,
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: OutlinedButton(
+                      style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Colors.white),
+                      ),
+                      onPressed: () {
+                        changeTimer(miniute: 1);
+                      },
+                      child: const Text(
+                        "15",
+                        style: TextStyle(
+                          color: Colors.redAccent,
+                          fontSize: 20,
+                        ),
+                      )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        changeTimer(miniute: 20);
+                      },
+                      child: const Text("20")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        changeTimer(miniute: 25);
+                      },
+                      child: const Text("25")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        changeTimer(miniute: 30);
+                      },
+                      child: const Text("30")),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        changeTimer(miniute: 35);
+                      },
+                      child: const Text("35")),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: IconButton(
+                color: Colors.white,
+                onPressed: toggle,
+                icon: _isRunning
+                    ? const Icon(Icons.pause)
+                    : const Icon(Icons.play_arrow),
+                iconSize: 100,
               ),
             ),
-          ],
-        ),
-      ]),
+            const SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 100),
+                  child: Column(
+                    children: [Text("$_completeRound/4"), const Text("ROUND")],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 100),
+                  child: Column(
+                    children: [Text("$_completeGoal/12"), const Text("GOAL")],
+                  ),
+                ),
+              ],
+            ),
+          ]),
     );
   }
 }
