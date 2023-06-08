@@ -18,13 +18,14 @@ class PomoTimerHome extends StatefulWidget {
 }
 
 class _pomoTimerState extends State<PomoTimerHome> {
-  final int _completeRound = 0;
-  final int _completeGoal = 0;
+  int _completeRound = 0;
+  int _completeGoal = 0;
 
   int _remainSeconds = 0;
   int _remainMinitues = 0;
 
   bool _isRunning = false;
+  bool _isRestTime = false;
 
   void runTimer() {
     print("run timer...");
@@ -46,11 +47,29 @@ class _pomoTimerState extends State<PomoTimerHome> {
         _remainSeconds = 59;
       } else if (_remainMinitues == 0 && _remainSeconds == 0) {
         //타이머 종료 시 -> round 추가 및 계산
-        _isRunning = false;
+        calcCompleteRoundAndGoal();
       } else {
         _remainSeconds--;
       }
     });
+  }
+
+  void calcCompleteRoundAndGoal() {
+    if (_isRestTime) {
+      //휴식시간 끝났으면 종료
+      _isRunning = false;
+    } else {
+      _completeRound++;
+
+      //휴식 시간 설정
+      _isRestTime = true;
+      _remainMinitues = 5;
+    }
+
+    if (_completeRound == 4) {
+      _completeRound = 0;
+      _completeGoal++;
+    }
   }
 
   void changeTimer({required int miniute}) {
@@ -65,6 +84,7 @@ class _pomoTimerState extends State<PomoTimerHome> {
       _remainMinitues = miniute;
       _remainSeconds = 0;
       _isRunning = true;
+      _isRestTime = false;
     });
   }
 
@@ -105,7 +125,7 @@ class _pomoTimerState extends State<PomoTimerHome> {
               padding: const EdgeInsets.all(5.0),
               child: ElevatedButton(
                   onPressed: () {
-                    changeTimer(miniute: 15);
+                    changeTimer(miniute: 1);
                   },
                   child: const Text("15")),
             ),
